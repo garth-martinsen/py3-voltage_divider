@@ -1,0 +1,11 @@
+#pycache
+src/__pycache__/
+
+#files ending in ~
+**/*~
+ 
+#.DS_Store
+.DS_Store
+
+#virtualEnvDir
+VDVenv/
