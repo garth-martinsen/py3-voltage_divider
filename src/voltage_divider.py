@@ -1,5 +1,6 @@
 
 import csv
+import os
 from collections import namedtuple
 
 """
@@ -44,6 +45,15 @@ a 5.1V zener in parallel with R2 to ground.
 VD = namedtuple("VD", "R1 R2 fraction power1_mw power2_mw diff")  # noqa: E501
 DesignGoals = namedtuple("DesignGoals", "Vin V1 V2 resistor_mw target_fraction min_r1 min_r2  tolerance")  # noqa: E221, E501
 FinalDesign = namedtuple("FinalDesign", "Vin V1 V2 resistor_mw actual_fraction R1 R2 deviance P1_mw P2_mw Max_A2D_V2")  # noqa: E221, E501
+
+
+def data_dir():
+    csv = os.getcwd()[0:-3]+ 'data'
+    print(f'csv files for resistors are in directory: {csv}')
+    os.chdir(csv)
+    files = os.listdir()
+    [print(csv + '/'+ f) for f in files if f.startswith('resistors') and f.endswith('csv')]
+    
 
 
 def get_design_parameters():
