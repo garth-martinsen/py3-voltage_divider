@@ -36,20 +36,20 @@ input_layout = [[
                 ]]
 # VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
 
-headings = ["Vin", "V1", "V2", "Deviance", "R1", "R2", "Pow1_mw","Pow2_mw","A2D"]
+headings = ["Vin", "V1", "V2", "Dev", "R1", "R2", "P1mw","P2mw","A2D"]
 table_layout = [[sg.Table(values=[], headings=headings, num_rows=6,
                           auto_size_columns=False, key='candidate_table',
                           alternating_row_color='Grey',
-                          col_widths=list(map(lambda x:2 * (len(x) + 1), headings)),  # noqa: E501
+                          col_widths=list(map(lambda x: 3*( len(x) + 1), headings)),  # noqa: E501
                           hide_vertical_scroll=True)]]
-output_layout = [[sg.Column(table_layout, scrollable=True, size=(800, 110))]]
+output_layout = [[sg.Column(table_layout, scrollable=True, size=(1000, 110))]]
 
 input_frame = sg.Frame("Inputs", input_layout, size=(5, 1), visible=True)
 output_frame = sg.Frame("Outputs", output_layout, size=(5, 1), visible=True)
 layout = [[input_frame]], [[output_frame]]
 
 
-window = sg.Window("Voltage Divider", layout, font="Courier 14")
+window = sg.Window("Voltage Divider", layout, font="Courier 16", resizable=True)
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Exit'):
