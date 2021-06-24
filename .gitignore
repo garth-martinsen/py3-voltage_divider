@@ -1,5 +1,5 @@
 #pycache
-src/__pycache__/
+__pycache__/
 
 #files ending in ~
 **/*~
@@ -9,3 +9,12 @@ src/__pycache__/
 
 #virtualEnvDir
 VDVenv/
+
+#Sublime Text workspace and project files
+vd4.sublime-project
+vd4.sublime-workspace
+
+# working files for analysis
+data/
+
+
