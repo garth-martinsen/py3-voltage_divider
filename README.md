@@ -1,5 +1,5 @@
 # py3-voltage_divider
-A **python3** script with **GUI** to select the best choice of resistors to meet power-dissipation and voltage dividing specs. 
+A **python3** script with **GUI** (PySimpleGUI) to select the best choice of resistors to meet power-dissipation and voltage dividing specs. 
 This would be useful if one wanted to measure a voltage which exceeds the allowable A2D input voltage (Arduino Micro Controller?).
 It requires the user to provide a **csv file** containing resistor values for each wattage level eg: **quarter_watt.csv** and half_watt.csv. Each
 file contains the resistance values on hand with that wattage.
