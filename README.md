@@ -10,4 +10,5 @@ that they do not exceed the max_mw displayed. (No hot or exploding resistors!). 
 function is used to filter out pairs. A lambda function is used to sort the candidates that meet power and divider specs in the order of best fit for
 the target v2. **Equations used in model:** Power_dissipated =Vr**2/r, v2= vin * r2/(r1+r2)
 An **image of the schematic** for a Simple Voltage divider is displayed to give the table values meaning.
-Schematic<img width="173" alt="Schematic" src="https://user-images.githubusercontent.com/6226186/123392188-a1e2e180-d551-11eb-9738-76cf00bebed3.png">
+![image](https://user-images.githubusercontent.com/6226186/123393078-99d77180-d552-11eb-819e-d7f9e5c6373c.png)
+
