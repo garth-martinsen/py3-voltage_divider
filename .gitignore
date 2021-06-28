@@ -8,7 +8,7 @@ __pycache__/
 .DS_Store
 
 #virtualEnvDir
-VDVenv/
+venv/
 
 #Sublime Text workspace and project files
 vd4.sublime-project
