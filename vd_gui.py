@@ -32,6 +32,7 @@ def get_resistor_file_path(values):
                              initial_folder=os.getcwd()
                              )
     if path:
+        window["path"].update(path)
         window["max_mw"].update(get_max_mw(path))
     return path
 
@@ -61,8 +62,9 @@ table_layout = [[sg.Table(values=[], headings=headings, num_rows=6,
                           col_widths=list(map(lambda x: 2 * (len(x) + 1), headings)),  # noqa: E501
                           hide_vertical_scroll=True), sg.Text("Max_mw "),
                 sg.Input("", size=(5, 1), key="max_mw"), ]]
-schematic = [[sg.Image(filename=root + "/Schematic.png",
-                       size=(335, 435), visible=True,)]]  # key="Schematic",
+#  schematic = [[sg.Image(filename=root + "/VoltageDivider.png",
+schematic = [[sg.Image(filename=root + "/Schematic.png",  
+                       size=(800, 435), visible=True,)]]  # key="Schematic",
 output_layout = [[sg.Column(table_layout, scrollable=True, size=(1000, 110))]]
 
 input_frame = sg.Frame("Inputs", input_layout, visible=True)
@@ -83,11 +85,9 @@ while True:
         break
     elif event == "Resistors":
         path = get_resistor_file_path(values)
-        window["path"].update(path)
+
     elif event in ("Tab:805306377", "Return:603979789"):
-        print("Either a tab or returnKey has been entered")
         window["Compute"].click()
     elif event == "Compute":
-        # print(f'Getting ready to call vdr.compute with:{values}')
         get_candidates(values)
     # print(event, values)

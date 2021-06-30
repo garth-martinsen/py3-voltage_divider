@@ -11,9 +11,8 @@ __pycache__/
 venv/
 
 #Sublime Text workspace and project files
-vd4.sublime-project
-vd4.sublime-workspace
-
+**.sublime-project
+**.sublime-workspace
 # working files for analysis
 data/
 

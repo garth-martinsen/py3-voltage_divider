@@ -3,7 +3,6 @@
 import re
 from collections import namedtuple
 import csv
-import os
 
 # ----------------namedtuples----------------------------------
 VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
@@ -31,7 +30,7 @@ def load_resistor_set(path):
             else:
                 resistorSet.add(int(row[0]))
                 line_count += 1
-        print(f'Loaded {line_count-1} resistors.')
+        # print(f'Loaded {line_count-1} resistors.')
         return resistorSet
 
 
@@ -107,7 +106,7 @@ def find_choices(design_goals, resistorSet):
                for r1 in resistorSet
                for r2 in resistorSet
                if design_meets_specs(design_goals, r1, r2)]
-    print(f'Sorting {len(choices)} choices')
+    # print(f'Sorting {len(choices)} choices')
     return sorted(list(choices), key=lambda vdr: vdr.Deviance)
 
 
@@ -131,59 +130,3 @@ def compute(Vin, path):
     return choices[0:end]
 
 
-# --------------------unit testing-----------------------------
-# path = '/Users/garth/Programming/python3/VD3/quarter_watt.csv'
-path = os.getcwd() + '/quarter_watt.csv'
-
-# "DesignGoals", "vin v2_hi v2_lo max_mw")
-design_goals = DesignGoals(25.25, v2_hi, v2_lo, 250)
-resistorSet = load_resistor_set(path)
-
-
-def test_compute():
-    fd = compute(design_goals.vin, path)
-    l1 = len(fd)
-    # print(f' Num candidates: {l1}')
-    assert(0 <= l1 <= 5)  # replace with better test.
-
-
-def test_find_choices():
-    """
-    Ensure they are sorted
-    """
-    # assert 6 == len(find_choices(design_goals, resistorSet))
-    candidates = find_choices(design_goals, resistorSet)
-    assert candidates[0].Deviance < candidates[1].Deviance
-
-
-"""
-not a good test because the test_vd is rounded for display so it will not match any of the vds generated.  # noqa: E501
-
-    def test_find_choices_2():
-
-       # bug when running with vd_gui.py, this VD should not meet specs. 
-
-      
-        test_vd = VD(25.5, 20.7, 4.8, 0.1511, 220000, 51000, 1, 0, 982)
-        candidates = compute(25.25, path)
-        assert test_vd not in candidates
-"""
-
-
-def test_design_meets_specs():
-    """
-    Ensure specs are tested: 
-    v2_lo <= v2 <= v2_hi and p1 <= 250 mw and p2 <= 250 mw
-    """
-    Pass = design_meets_specs(design_goals, 2000, 470)
-    assert Pass
-
-
-def test_design_meets_specs_3():
-    """
-    This is to check for the bug in a gui run. I had left off a zero in 220000. 
-    Not a bug after all.
-    """
-    # r1=220000  r2=51000
-    Pass = design_meets_specs(design_goals, 220000, 51000)
-    assert (Pass)
