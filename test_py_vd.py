@@ -24,18 +24,21 @@ v2_hi = vdr.v2_hi
 v2_lo = vdr.v2_lo
 max_mw = 250
 
-#path = os.getcwd() + '/quarter_watt.csv'
-#resistorSet = vdr.load_resistor_set(path)
-#design_goals = vdr.DesignGoals(25.2, v2_hi, v2_lo, max_mw)
 
 @pytest.fixture
-def path():
+def path1():
     return os.getcwd() + '/quarter_watt.csv'
 
 
 @pytest.fixture
-def resistorSet(path):
-    return vdr.load_resistor_set(path)
+def path2():
+    return os.getcwd() + '/half_watt.csv'
+
+
+@pytest.fixture
+def resistorSet(path1):
+    return vdr.load_resistor_set(path1)
+
 
 @pytest.fixture
 def design_goals():
@@ -46,18 +49,18 @@ def design_goals():
 
 def test_fixture(design_goals):
     print("This is to test the test fixture: design_goals ")
-    A = design_goals.vin == 25.2 
-    B = design_goals.v2_hi == vdr.v2_hi 
-    C = design_goals.v2_lo == vdr.v2_lo 
+    A = design_goals.vin == 25.2
+    B = design_goals.v2_hi == vdr.v2_hi
+    C = design_goals.v2_lo == vdr.v2_lo
     D = design_goals.max_mw == 250
     assert A and B and C and D
 
 
-def test_compute(design_goals, path):
+def test_compute(design_goals, path1):
     """
-    ---Test end to end.Given vin and path, ensure returns 5 or less vds
+    ---Test end to end.Given vin and path1, ensure returns 5 or less vds
     """
-    vds = vdr.compute(design_goals.vin, path)
+    vds = vdr.compute(design_goals.vin, path1)
     l1 = len(vds)
     # print(f' Num candidates: {l1}')
     assert(0 <= l1 <= 5)  # replace with better test.
@@ -96,18 +99,33 @@ def test_design_meets_specs_3(design_goals):
     assert vdr.design_meets_specs(design_goals, 220000, 51000)
 
 
-def test_get_max_mw(path):
+def test_get_max_mw(path1):
     """
-    ---Ensures that the correct wattage is set from the path to the resistors.
+    ---Ensures that the correct wattage is set from the path1 to the resistors.
     """
-    assert vdr.get_max_mw(path) == 250
+    assert vdr.get_max_mw(path1) == 250
 
 
-def test_load_resistor_set(path):
+def test_get_max_mw2(path2):
     """
-    ---Ensures that the resistor set is loaded correctly given path.
+    ---Ensures that the correct wattage is set from the path2 to the resistors.
     """
-    resistorSet = vdr.load_resistor_set(path)
+    assert vdr.get_max_mw(path2) == 500
+
+
+def test_load_resistor_set(path1):
+    """
+    ---Ensures that the resistor set is loaded correctly given path1.
+    """
+    resistorSet = vdr.load_resistor_set(path1)
+    assert isinstance(resistorSet, set) and len(resistorSet) == 37
+
+
+def test_load_resistor_set2(path2):
+    """
+    ---Ensures that the resistor set is loaded correctly given path2.
+    """
+    resistorSet = vdr.load_resistor_set(path2)
     assert isinstance(resistorSet, set) and len(resistorSet) == 37
 
 
