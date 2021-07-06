@@ -52,7 +52,7 @@ input_layout = [[
                 ]]
 # VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
 root = os.getcwd()
-headings = ["Vin", "V1", "V2", "Dev", "R1_ohms",
+headings = ["Vin", "V1", "V2", "Deviance", "R1_ohms",
             "R2_ohms", "P1_mw", "P2_mw", "A2D"]
 table_layout = [[sg.Table(values=[], headings=headings, num_rows=6,
                           auto_size_columns=False, key='candidate_table',
