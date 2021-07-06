@@ -9,6 +9,12 @@ Then the **User enters** the input voltage, Vin. A **RETURN or a TAB** will trig
 that they do not exceed the max_mw displayed. (No hot or exploding resistors!). List comprehensions are used to generate all possible pairs. A "meets_specs
 function is used to filter out pairs. A lambda function is used to sort the candidates that meet power and divider specs in the order of best fit for
 the target v2. **Equations used in model:** Power_dissipated =Vr**2/r, v2= vin * r2/(r1+r2)
-An **image of the schematic** for a Simple Voltage divider is displayed to give the table values meaning.
+An **image of the schematic** for a Simple Voltage divider is displayed to give the table values meaning. Notes: 
+1.     to get the pytest coverage use:  
+       coverage run --omit 'venv/*' -m pytest;       single quotes are required.
+       coverage report       or 
+       coverage html 
+2. to install all dependencies use: pip install -r requirements.txt
+ 
 ![image](https://user-images.githubusercontent.com/6226186/123393078-99d77180-d552-11eb-819e-d7f9e5c6373c.png)
 

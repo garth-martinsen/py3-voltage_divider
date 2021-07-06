@@ -16,4 +16,7 @@ venv/
 # working files for analysis
 data/
 
+#coverage stuff
+.coverage
+htmlcov/
 

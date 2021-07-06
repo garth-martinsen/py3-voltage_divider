@@ -3,11 +3,7 @@
 import PySimpleGUI as sg
 import os
 import voltage_divider as vdr
-import re
-
-# global variables
-# max_mw = 0
-# path = ''
+#  import re
 
 
 def get_max_mw(path):
@@ -16,12 +12,14 @@ def get_max_mw(path):
     If another set of resistors exist with different power ratings,
     A file should be created with a title reflecting the rating.
     """
-    q = re.findall('quarter', path)
-    h = re.findall('half', path)
-    if len(q) > 0:
+    if path.find('quarter') > -1:
         max_mw = 250
-    elif len(h) > 0:
+    elif path.find('half') > -1:
         max_mw = 500
+    else:
+        max_mw = 0
+        msg = path + ' is not a resistor file. Try pressing Resistors again and selecting a csv file.'
+        sg.popup_ok_cancel(msg)
     return max_mw
 
 
@@ -59,12 +57,13 @@ headings = ["Vin", "V1", "V2", "Dev", "R1_ohms",
 table_layout = [[sg.Table(values=[], headings=headings, num_rows=6,
                           auto_size_columns=False, key='candidate_table',
                           alternating_row_color='Grey',
-                          col_widths=list(map(lambda x: 2 * (len(x) + 1), headings)),  # noqa: E501
+                          col_widths=list(
+                              map(lambda x: 2 * (len(x) + 1), headings)),
                           hide_vertical_scroll=True), sg.Text("Max_mw "),
-                sg.Input("", size=(5, 1), key="max_mw"), ]]
+                 sg.Input("", size=(5, 1), key="max_mw"), ]]
 #  schematic = [[sg.Image(filename=root + "/VoltageDivider.png",
-schematic = [[sg.Image(filename=root + "/Schematic.png",  
-                       size=(800, 435), visible=True,)]]  # key="Schematic",
+schematic = [[sg.Image(filename=root + "/Schematic.png",
+                       size=(600, 335), visible=True,), sg.Button("Exit")]]  # key="Schematic",
 output_layout = [[sg.Column(table_layout, scrollable=True, size=(1000, 110))]]
 
 input_frame = sg.Frame("Inputs", input_layout, visible=True)
@@ -77,15 +76,14 @@ layout = [[[[input_frame]], [[output_frame]], [[schematic]]]]
 window = sg.Window("Voltage Divider", layout,
                    font="Courier 14", return_keyboard_events=True,
                    resizable=True)
-# sg.show_debugger_window(location=(0, 0))
 
+# Event Loop, continues until Window is closed or Exit button is pressed.
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Exit'):
         break
     elif event == "Resistors":
         path = get_resistor_file_path(values)
-
     elif event in ("Tab:805306377", "Return:603979789"):
         window["Compute"].click()
     elif event == "Compute":

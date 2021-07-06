@@ -101,7 +101,7 @@ def test_design_meets_specs_3(design_goals):
 
 def test_get_max_mw(path1):
     """
-    ---Ensures that the correct wattage is set from the path1 to the resistors.
+    ---Ensures that the correct wattage for the resistors is set.
     """
     assert vdr.get_max_mw(path1) == 250
 
@@ -111,6 +111,13 @@ def test_get_max_mw2(path2):
     ---Ensures that the correct wattage is set from the path2 to the resistors.
     """
     assert vdr.get_max_mw(path2) == 500
+
+
+def test_get_max_mw3():
+    """
+    ---Ensures that the correct wattage is set from the path2 to the resistors.
+    """
+    assert vdr.get_max_mw(os.getcwd()) == 0
 
 
 def test_load_resistor_set(path1):

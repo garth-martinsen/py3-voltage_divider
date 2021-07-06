@@ -64,12 +64,12 @@ def get_max_mw(path):
     A file should be created with a title reflecting the rating.
     """
     global max_mw
-    q = re.findall('quarter', path)
-    h = re.findall('half', path)
-    if len(q) > 0:
+    if path.find('quarter') > -1:
         max_mw = 250
-    elif len(h) > 0:
+    elif path.find('half') > -1:
         max_mw = 500
+    else:
+        max_mw = 0
     return max_mw
 
 
@@ -113,9 +113,9 @@ def find_choices(design_goals, resistorSet):
 def compute(Vin, path):
     """
     Entry point from GUI. Vin = input Voltage to be measured,  # noqa: E101
-    path = path to the resistor set csv file. max_mw is computed from path.
+    path = path to the resistor-set csv file. max_mw is computed from path.
     The desired V2 is v2_hi 
-    so any value in range (4.65 < v2 < 4.95) meets specs. v2_hi and v2_lo
+    so any value in range (v2_low < v2 < 4.95) meets specs. v2_hi and v2_lo
     are global variables so they are easily changed at the top of the script.
     Returns top 5 candidates
     """
@@ -128,5 +128,3 @@ def compute(Vin, path):
     # print(choices)
     end = min(5, len(choices))
     return choices[0:end]
-
-
