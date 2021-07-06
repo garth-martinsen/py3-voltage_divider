@@ -14,7 +14,8 @@ An **image of the schematic** for a Simple Voltage divider is displayed to give 
        coverage run --omit 'venv/*' -m pytest;       single quotes are required.
        coverage report       or 
        coverage html 
-2. to install all dependencies use: pip install -r requirements.txt
- 
+2. to install all development dependencies use: pip install -r requirements-dev.txt
+3. to install all production dependencies use: pip install -r requirements.txt
+
 ![image](https://user-images.githubusercontent.com/6226186/123393078-99d77180-d552-11eb-819e-d7f9e5c6373c.png)
 
