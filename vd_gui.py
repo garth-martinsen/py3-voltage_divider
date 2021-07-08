@@ -63,7 +63,8 @@ table_layout = [[sg.Table(values=[], headings=headings, num_rows=6,
                  sg.Input("", size=(5, 1), key="max_mw"), ]]
 #  schematic = [[sg.Image(filename=root + "/VoltageDivider.png",
 schematic = [[sg.Image(filename=root + "/Schematic.png",
-                       size=(600, 335), visible=True,), sg.Button("Exit")]]  # key="Schematic",
+                       size=(600, 335), visible=True,),
+              sg.Button("Exit")]]  # key="Schematic",
 output_layout = [[sg.Column(table_layout, scrollable=True, size=(1000, 110))]]
 
 input_frame = sg.Frame("Inputs", input_layout, visible=True)
