@@ -16,7 +16,7 @@ argument.
 See fixture resistorSet(...) below.
 """
 DesignGoals = namedtuple("DesignGoals", "vin v2_hi v2_lo max_mw")
-VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
+VD = namedtuple("VD", "vin v1 v2 deviance r1 r2 pow1_mw pow2_mw a2d")
 
 
 #  --------- globals and test fixtures-----------------
@@ -58,12 +58,17 @@ def test_fixture(design_goals):
 
 def test_compute(design_goals, path1):
     """
-    ---Test end to end.Given vin and path1, ensure returns 5 or less vds
+    ---Test end to end.Given vin and path1, ensure returns 5 or less vds and 
+       there are no violations to power and voltage constraints.
     """
     vds = vdr.compute(design_goals.vin, path1)
-    l1 = len(vds)
+    
     # print(f' Num candidates: {l1}')
-    assert(0 <= l1 <= 5)  # replace with better test.
+    assert(0 <= len(vds) <= 5) 
+    for c in vds:
+        assert design_goals.v2_lo <= c.v2 <= design_goals.v2_hi
+        assert c.pow1_mw <= design_goals.max_mw 
+        assert c.pow2_mw <= design_goals.max_mw
 
 
 def test_find_choices(design_goals, resistorSet):
@@ -72,7 +77,7 @@ def test_find_choices(design_goals, resistorSet):
    """
     # assert 6 == len(find_choices(design_goals, resistorSet))
     candidates = vdr.find_choices(design_goals, resistorSet)
-    assert(candidates[0].Deviance <= candidates[1].Deviance)
+    assert(candidates[0].deviance <= candidates[1].deviance)
 
 
 def test_design_meets_specs(design_goals):
@@ -139,10 +144,10 @@ def test_load_resistor_set2(path2):
 def test_build_voltage_divider(design_goals):
     """
     ---Tests that the namedtuple VD is returned correctly
-     # VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
+     # VD = namedtuple("VD", "vin v1 v2 deviance r1 r2 pow1_mw pow2_mw a2d")
      # DesignGoals = namedtuple("DesignGoals", "vin v2_hi v2_lo max_mw")
 
     """
     vd = vdr.build_voltage_divider(design_goals, 2000, 470)
 
-    assert vd.Vin == design_goals.vin and vd.V1 == 20.4 and vd.V2 == 4.8 and vd.Pow1_mw == 208 and vd.Pow2_mw == 48 and vd.A2D == 981  # noqa: E501
+    assert vd.vin == design_goals.vin and vd.v1 == 20.4 and vd.v2 == 4.8 and vd.pow1_mw == 208 and vd.pow2_mw == 48 and vd.a2d == 981  # noqa: E501

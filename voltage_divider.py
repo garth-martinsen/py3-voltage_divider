@@ -5,7 +5,7 @@ from collections import namedtuple
 import csv
 
 # ----------------namedtuples----------------------------------
-VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
+VD = namedtuple("VD", "vin v1 v2 deviance r1 r2 pow1_mw pow2_mw a2d")
 DesignGoals = namedtuple("DesignGoals", "vin v2_hi v2_lo max_mw")
 
 # --------------global variables-------------------------------
@@ -49,11 +49,10 @@ def build_voltage_divider(design_goals, r1, r2):
     a2d = int(f'{v2/5*1023:.0f}')
     dev = design_goals.v2_hi - v2
     # size for display
-    vin = float(f'{vin:4.2f}')
-    v1 = float(f'{v1:4.2f}')
-    v2 = float(f'{v2:4.2f}')
+    vin = float(f'{vin:6.2f}')
+    v1 = float(f'{v1:6.2f}')
+    v2 = float(f'{v2:6.2f}')
     dev = float(f'{dev:6.4f}')
-    # VD = namedtuple("VD", "Vin V1 V2 Deviance R1 R2 Pow1_mw Pow2_mw A2D")
     return VD(vin, v1, v2, dev, r1, r2, p1, p2, a2d)
 
 
@@ -107,12 +106,12 @@ def find_choices(design_goals, resistorSet):
                for r2 in resistorSet
                if design_meets_specs(design_goals, r1, r2)]
     # print(f'Sorting {len(choices)} choices')
-    return sorted(list(choices), key=lambda vdr: vdr.Deviance)
+    return sorted(list(choices), key=lambda vdr: vdr.deviance)
 
 
-def compute(Vin, path):
+def compute(vin, path):
     """
-    Entry point from GUI. Vin = input Voltage to be measured,  # noqa: E101
+    Entry point from GUI. vin = input Voltage to be measured,  # noqa: E101
     path = path to the resistor-set csv file. max_mw is computed from path.
     The desired V2 is v2_hi 
     so any value in range (v2_low < v2 < 4.95) meets specs. v2_hi and v2_lo
@@ -123,7 +122,7 @@ def compute(Vin, path):
     global v2_lo
     max_mw = get_max_mw(path)
     resistor_set = load_resistor_set(path)
-    design_goals = DesignGoals(float(Vin), v2_hi, v2_lo, max_mw)
+    design_goals = DesignGoals(float(vin), v2_hi, v2_lo, max_mw)
     choices = find_choices(design_goals, resistor_set)
     # print(choices)
     end = min(5, len(choices))
