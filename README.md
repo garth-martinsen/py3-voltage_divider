@@ -12,8 +12,7 @@ the target v2. **Equations used in model:** Power_dissipated =Vr**2/r, v2= vin *
 An **image of the schematic** for a Simple Voltage divider is displayed to give the table values meaning. Notes: 
 1.     to get the pytest coverage use:  
        coverage run --omit 'venv/*' -m pytest;       single quotes are required.
-       coverage report       or 
-       coverage html 
+       then: coverage report       or      coverage html to view coverage 
 2. to install all development dependencies use: pip install -r requirements-dev.txt
 3. to install all production dependencies use: pip install -r requirements.txt
 
