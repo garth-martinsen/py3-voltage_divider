@@ -9,14 +9,15 @@ VD = namedtuple("VD", "vin v1 v2 deviance r1 r2 pow1_mw pow2_mw a2d")
 DesignGoals = namedtuple("DesignGoals", "vin v2_hi v2_lo max_mw")
 
 # --------------global variables-------------------------------
-v2_hi = 4.95  # a2d = 1012
-v2_lo = 1.00  # a2d = 205
+v2_hi = 4.99  # a2d = 1020
+v2_lo = 3.0   # a2d =  613
 max_mw = 0   # set in process
 
 
 def load_resistor_set(path):
     """
-    Loads the set of resistors available for use into a set. The best 
+    Loads th
+    e set of resistors available for use into a set. The best 
     Fit can be used in the selected voltage divider.
     """
     resistorSet = set()
@@ -44,8 +45,8 @@ def build_voltage_divider(design_goals, r1, r2):
     vin = design_goals.vin
     v1 = vin * (1 - fract)
     v2 = design_goals.vin * fract
-    p1 = int(v1**2 / r1 * 1000)  # mW
-    p2 = int(v2**2 / r2 * 1000)  # mW
+    p1 = round(v1**2 / r1 * 1000)  # mW
+    p2 = round(v2**2 / r2 * 1000)  # mW
     a2d = int(f'{v2/5*1023:.0f}')
     dev = design_goals.v2_hi - v2
     # size for display
