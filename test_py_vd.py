@@ -150,4 +150,10 @@ def test_build_voltage_divider(design_goals):
     """
     vd = vdr.build_voltage_divider(design_goals, 2000, 470)
 
-    assert vd.vin == design_goals.vin and vd.v1 == 20.4 and vd.v2 == 4.8 and vd.pow1_mw == 208 and vd.pow2_mw == 48 and vd.a2d == 981  # noqa: E501
+    vin_Ok = vd.vin == design_goals.vin 
+    v1_OK = vd.v1 == 20.4 
+    v2_Ok = vd.v2 == 4.8 
+    p1_Ok = abs(vd.pow1_mw - 208) <= 1 
+    p2_Ok = abs(vd.pow2_mw - 49) <= 1 
+    a2d_Ok = abs(vd.a2d - 981) <= 1
+    assert vin_Ok and v1_OK and v2_Ok and p1_Ok and p2_Ok and a2d_Ok
