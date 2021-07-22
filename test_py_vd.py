@@ -106,23 +106,26 @@ def test_design_meets_specs_3(design_goals):
 
 def test_get_max_mw(path1):
     """
-    ---Ensures that the correct wattage for the resistors is set.
+    ---Ensures that the correct resistor wattage is set from path1.
     """
     assert vdr.get_max_mw(path1) == 250
 
 
 def test_get_max_mw2(path2):
     """
-    ---Ensures that the correct wattage is set from the path2 to the resistors.
+    ---Ensures that the correct resistor wattage is set from path2.
     """
     assert vdr.get_max_mw(path2) == 500
 
 
 def test_get_max_mw3():
     """
-    ---Ensures that the correct wattage is set from the path2 to the resistors.
+    ---Ensures that the correct resister wattage is set from error path.
     """
     assert vdr.get_max_mw(os.getcwd()) == 0
+
+def test_file_exists_quarter(path1):
+    assert os.path.exists(path1)
 
 
 def test_load_resistor_set(path1):
@@ -131,6 +134,10 @@ def test_load_resistor_set(path1):
     """
     resistorSet = vdr.load_resistor_set(path1)
     assert isinstance(resistorSet, set) and len(resistorSet) == 37
+
+
+def test_file_exists_half(path2):
+    assert os.path.exists(path2)
 
 
 def test_load_resistor_set2(path2):
@@ -146,7 +153,7 @@ def test_build_voltage_divider(design_goals):
     ---Tests that the namedtuple VD is returned correctly
      # VD = namedtuple("VD", "vin v1 v2 deviance r1 r2 pow1_mw pow2_mw a2d")
      # DesignGoals = namedtuple("DesignGoals", "vin v2_hi v2_lo max_mw")
-
+     Small absolute differences are allowed (less than 1 unit) when comparing.
     """
     vd = vdr.build_voltage_divider(design_goals, 2000, 470)
 
